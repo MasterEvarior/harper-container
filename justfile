@@ -14,3 +14,9 @@ alias bl := build-and-load
 build-and-load:
     nix build
     docker load < result
+
+alias l := lint
+[doc('Run nix fmt')]
+[group('lint')]
+lint:
+    nix fmt
