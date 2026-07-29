@@ -30,8 +30,19 @@
         };
       in
       {
+        packages.default = pkgs.dockerTools.buildLayeredImage {
+          name = "harper-container";
+          config = {
+            Cmd = [
+              "${lib.getExe' pkgs.harper "harper-cli"}"
+            ];
+          };
+        };
 
         devShells.default = pkgs.mkShell {
+          packages = with pkgs; [
+            just
+          ];
 
           shellHook = ''
             git config --local core.hooksPath .githooks/
