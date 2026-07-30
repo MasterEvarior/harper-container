@@ -20,7 +20,7 @@ jobs:
         uses: cachix/install-nix-action@v31.11.0
       - name: Check Linting
         run: nix develop --command just lint
-  
+
   build-image:
     name: "Build Image"
     runs-on: ubuntu-latest
