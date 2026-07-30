@@ -1,0 +1,17 @@
+---
+name: Execute just command
+description: Install nix and execute a single just command
+
+inputs:
+  command:
+    description: Name of the command you want to Execute
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Install Nix
+      uses: cachix/install-nix-action@v31.11.0
+    - name: Run just ${{ inputs.command }}
+      shell: bash
+      run: nix develop --command just ${{ inputs.command }}
