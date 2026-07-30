@@ -20,3 +20,25 @@ jobs:
         uses: cachix/install-nix-action@v31.11.0
       - name: Check Linting
         run: nix develop --command just lint
+  
+  build-image:
+    name: "Build Image"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    needs:
+      - lint
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31.11.0
+      - name: Check Linting
+        run: nix develop --command build
+      - name: Upload image.tar
+        uses: actions/upload-artifact@v7
+        with:
+          path: result
+          if-no-files-found: error
+          retention-days: 1
+          archive: false
