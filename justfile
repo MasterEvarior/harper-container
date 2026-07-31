@@ -15,6 +15,13 @@ build-and-load:
     nix build
     docker load < result
 
+alias v := version
+[doc('Get the version of harper-cli')]
+[group('build')]
+version:
+    @nix build .#version > /dev/null 2>&1
+    @cat result
+
 alias l := lint
 [doc('Run nix fmt')]
 [group('lint')]

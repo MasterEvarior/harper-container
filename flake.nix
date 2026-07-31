@@ -30,13 +30,19 @@
         };
       in
       {
-        packages.default = pkgs.dockerTools.buildLayeredImage {
-          name = "harper-container";
-          config = {
-            Cmd = [
-              "${lib.getExe' pkgs.harper "harper-cli"}"
-            ];
+        packages = {
+          default = pkgs.dockerTools.buildLayeredImage {
+            name = "harper-container";
+            config = {
+              Cmd = [
+                "${lib.getExe' pkgs.harper "harper-cli"}"
+              ];
+            };
           };
+
+          version = pkgs.runCommand "version" { } ''
+            ${lib.getExe' pkgs.harper "harper-cli"} --version | ${lib.getExe' pkgs.gawk "awk"} '{print $2}' >> $out
+          '';
         };
 
         devShells.default = pkgs.mkShell {
