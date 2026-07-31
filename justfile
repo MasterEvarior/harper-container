@@ -22,6 +22,13 @@ version:
     @nix build .#version > /dev/null 2>&1
     @cat result
 
+alias t := tag
+[doc('Get the tag of the generated OCI image')]
+[group('build')]
+tag:
+    @nix build .#image-tag > /dev/null 2>&1
+    @cat result
+
 alias l := lint
 [doc('Run nix fmt')]
 [group('lint')]

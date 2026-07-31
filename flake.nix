@@ -40,6 +40,12 @@
             };
           };
 
+          image-tag = pkgs.runCommand "image-tag" { } ''
+            ${lib.getExe pkgs.gnutar} -xf ${
+              self.packages.${system}.default
+            } --to-stdout manifest.json | ${lib.getExe pkgs.jq} -r '.[0].RepoTags[0]' >> $out
+          '';
+
           version = pkgs.runCommand "version" { } ''
             ${lib.getExe' pkgs.harper "harper-cli"} --version | ${lib.getExe' pkgs.gawk "awk"} '{print $2}' >> $out
           '';
