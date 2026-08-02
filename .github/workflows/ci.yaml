@@ -28,6 +28,8 @@ jobs:
       contents: read
     needs:
       - lint
+    outputs:
+      tag: ${{ steps.tag.outputs.tag }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
@@ -42,3 +44,34 @@ jobs:
           if-no-files-found: error
           retention-days: 1
           archive: false
+      - name: Extract image tag
+        uses: ./.github/actions/just-command
+        with:
+          command: tag
+      - name: Add iamge tag to output
+        id: tag
+        run: echo "tag=$(cat result)" >> "$GITHUB_OUTPUT"
+
+  upload-image:
+    name: "Upload Image"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+    needs:
+      - build-image
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+      - name: Download image
+        uses: actions/download-artifact@v8
+        with:
+          name: result
+      - name: Load Docker Image
+        run: docker load < result
+      - name: Debug
+        run: docker images
+      - name: Debug
+        run: echo ${{needs.build-image.outputs.tag}}
