@@ -34,3 +34,9 @@ alias l := lint
 [group('lint')]
 lint:
     nix fmt
+
+[doc('Run some basic tests')]
+[group('test')]
+test: build-and-load
+    {{justfile_directory()}}/test/test.sh $(just tag) {{justfile_directory()}}/test/test.typ
+    
