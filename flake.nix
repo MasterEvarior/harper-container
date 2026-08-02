@@ -34,7 +34,7 @@
           default = pkgs.dockerTools.buildLayeredImage {
             name = "harper-container";
             config = {
-              Cmd = [
+              Entrypoint = [
                 "${lib.getExe' pkgs.harper "harper-cli"}"
               ];
             };
