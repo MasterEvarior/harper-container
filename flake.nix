@@ -47,7 +47,7 @@
           '';
 
           version = pkgs.runCommand "version" { } ''
-            ${lib.getExe' pkgs.harper "harper-cli"} --version | ${lib.getExe' pkgs.gawk "awk"} '{print $2}' >> $out
+            ${lib.getExe pkgs.harper} --version | ${lib.getExe' pkgs.gawk "awk"} '{print $2}' >> $out
           '';
         };
 
