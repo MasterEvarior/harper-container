@@ -37,6 +37,10 @@ lint:
 
 [doc('Run some basic tests')]
 [group('test')]
-test: build-and-load
-    {{justfile_directory()}}/test/test.sh $(just tag) {{justfile_directory()}}/test/test.typ
-    
+test IMAGE="$(just tag)":
+    {{justfile_directory()}}/test/test.sh {{IMAGE}} {{justfile_directory()}}/test/test.typ
+
+[doc('Run some basic tests')]
+[group('test')]
+build-and-test IMAGE="$(just tag)": build-and-load
+    {{justfile_directory()}}/test/test.sh {{IMAGE}} {{justfile_directory()}}/test/test.typ 

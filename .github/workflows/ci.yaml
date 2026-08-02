@@ -60,6 +60,26 @@ jobs:
         id: version
         run: echo "version=$(cat result)" >> "$GITHUB_OUTPUT"
 
+  test:
+    name: Test Image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    needs:
+      - build-image
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+      - name: Download image
+        uses: actions/download-artifact@v8
+        with:
+          name: result
+      - name: Load Docker Image
+        run: docker load < result
+      - name: Run tests
+        uses: ./.github/actions/just-command
+        with:
+          command: test ${{ needs.build-image.outputs.tag }}
 
   upload-image:
     name: "Upload Image"
@@ -71,6 +91,7 @@ jobs:
       id-token: write
     needs:
       - build-image
+      - test
     env:
       REGISTRY: ghcr.io
       IMAGE: ghcr.io/masterevarior/harper
