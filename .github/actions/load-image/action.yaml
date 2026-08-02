@@ -1,0 +1,14 @@
+---
+name: Load Docker image
+description: Download the image artifact and load it into Docker
+
+runs:
+  using: composite
+  steps:
+    - name: Download image
+      uses: actions/download-artifact@v8
+      with:
+        name: result
+    - name: Load Docker image
+      shell: bash
+      run: docker load < result

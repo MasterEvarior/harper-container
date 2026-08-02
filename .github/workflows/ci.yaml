@@ -70,12 +70,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
-      - name: Download image
-        uses: actions/download-artifact@v8
-        with:
-          name: result
-      - name: Load Docker Image
-        run: docker load < result
+      - name: Load Docker image
+        uses: ./.github/actions/load-image
       - name: Run tests
         uses: ./.github/actions/just-command
         with:
@@ -98,12 +94,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
-      - name: Download image
-        uses: actions/download-artifact@v8
-        with:
-          name: result
-      - name: Load Docker Image
-        run: docker load < result
+      - name: Load Docker image
+        uses: ./.github/actions/load-image
       - name: Tag image
         run: docker tag ${{ needs.build-image.outputs.tag }} ${{ env.IMAGE }}
       - name: Set up Docker Buildx
