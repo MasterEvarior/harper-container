@@ -11,7 +11,7 @@ runs:
   using: composite
   steps:
     - name: Install Nix
-      uses: cachix/install-nix-action@v32.0.0
+      uses: cachix/install-nix-action@v32.1.0
     - name: Run just ${{ inputs.command }}
       shell: bash
       run: nix develop --command just ${{ inputs.command }}
